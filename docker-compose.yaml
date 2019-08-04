@@ -10,7 +10,7 @@ services:
       - AUTOHEAL_START_PERIOD=600   # wait 0 second before first health check
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      
+
   # Selenium hub
   selenium_hub:
     image: selenium/hub:3.14.0-curium
@@ -27,17 +27,11 @@ services:
 
     # Docker-Android for Android application testing
   AndroidApp:
-    image: butomo1989/docker-android-x86-8.1
+    image: mehr1353/docker-android-x86-8.1
     privileged: true
     volumes:
       - ./videos/AndroidApp:/tmp/video
       - ./media:/media
-      - ./src/utils.sh:/root/src/utils.sh
-      - ./src/record.sh:/root/src/record.sh
-      - ./src/app.py:/root/src/app.py
-      - ./src/google_play_store.apk:/root/google_play_store.apk
-      - ./src/google_play_services.apk:/root/google_play_services.apk
-      - ./devices:/root/devices
 
     # Increase scale number if needed
     scale: 1
@@ -61,7 +55,7 @@ services:
   # Docker-Android for mobile website testing with chrome browser
   # Chrome browser exists only for version 7.0 and 7.1.1
   MobileSite:
-    image: butomo1989/docker-android-x86-8.1
+    image: mehr1353/docker-android-x86-8.1
     privileged: true
     # Increase scale number if needed
     scale: 1
@@ -72,13 +66,6 @@ services:
     volumes:
       - ./videos/MobileSite:/tmp/video
       - ./media:/media
-      - ./src/utils.sh:/root/src/utils.sh
-      - ./src/record.sh:/root/src/record.sh
-      - ./src/app.py:/root/src/app.py
-      - ./src/google_play_store.apk:/root/google_play_store.apk
-      - ./src/google_play_services.apk:/root/google_play_services.apk
-      - ./src/google_chrome.apk:/root/google_chrome.apk
-      - ./devices:/root/devices
 
     environment:
       - DEVICE=Samsung Galaxy S6
