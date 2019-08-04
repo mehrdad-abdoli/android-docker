@@ -1,0 +1,115 @@
+parts {
+    portrait {
+        background {
+            image   S6_PortS.png
+        }
+		buttons {
+            soft-left {
+                    image port-button1.png
+                    x 131
+                    y 1015
+            }
+            home {
+                    image port-button2.png
+                    x 240
+                    y 1006
+            }
+            back {
+                    image port-button3.png
+                    x 431
+                    y 1015
+            }
+		}
+    }
+    landscape {
+        background {
+            image   S6_Land.png
+        }
+		buttons {
+            soft-left {
+                    image land-button1.png
+                     x 1019
+                     y 411
+            }
+            home {
+                    image land-button2.png
+                    x 1010
+                    y 222
+            }
+            back {
+                    image land-button3.png
+                    x 1021
+                    y 113
+            }
+		}
+    }
+
+    device {
+        display {
+            width   474
+            height  839
+            x       0
+            y       0
+        }
+    }
+}
+
+layouts {
+    portrait {
+        width     586
+        height    1100
+        color     0xe0e0e0
+        event     EV_SW:0:1
+
+        part1 {
+            name    portrait
+            x       0
+            y       0
+        }
+
+        part2 {
+            name    landscape
+            x       1000
+            y       0
+        }
+
+        part3 {
+            name    device
+            x       57
+            y       133
+        }
+    }
+
+    landscape {
+        width     1100
+        height    1000
+        color     0xe0e0e0
+        event     EV_SW:0:0
+
+        dpad-rotation 3
+
+        part1 {
+            name    portrait
+            x       950
+            y       0
+        }
+
+        part2 {
+            name    landscape
+            x       0
+            y       0
+        }
+
+        part3 {
+            name      device
+            x         134
+            y         516
+            rotation  3
+        }
+    }
+}
+
+network {
+    speed  full
+    delay  none
+}

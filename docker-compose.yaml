@@ -1,0 +1,93 @@
+version: '2.2'
+
+services:
+  autoheal:
+    image: willfarrell/autoheal
+    restart: always
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=autoheal
+      - AUTOHEAL_INTERVAL=10   # check every 5 seconds
+      - AUTOHEAL_START_PERIOD=600   # wait 0 second before first health check
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      
+  # Selenium hub
+  selenium_hub:
+    image: selenium/hub:3.14.0-curium
+    container_name: selenium_hub
+    hostname: selenium_hub
+    ports:
+      - "4444:4444"
+    environment:
+      - GRID_MAX_SESSION=20
+      - TZ=Asia/Tehran
+      - GRID_BROWSER_TIMEOUT=20
+      - GRID_TIMEOUT=15
+      - GRID_NEW_SESSION_WAIT_TIMEOUT=-1
+
+    # Docker-Android for Android application testing
+  AndroidApp:
+    image: butomo1989/docker-android-x86-8.1
+    privileged: true
+    volumes:
+      - ./videos/AndroidApp:/tmp/video
+      - ./media:/media
+      - ./src/utils.sh:/root/src/utils.sh
+      - ./src/record.sh:/root/src/record.sh
+      - ./src/app.py:/root/src/app.py
+      - ./src/google_play_store.apk:/root/google_play_store.apk
+      - ./src/google_play_services.apk:/root/google_play_services.apk
+      - ./devices:/root/devices
+
+    # Increase scale number if needed
+    scale: 1
+    depends_on:
+      - selenium_hub
+    ports:
+      - 6080
+    environment:
+      - DEVICE=Samsung Galaxy S6
+      - CONNECT_TO_GRID=true
+      - APPIUM=true
+      - SELENIUM_HOST=selenium_hub
+      - SELENIUM_PORT=4444
+      - AUTO_RECORD=true
+      - RELAXED_SECURITY=true
+      - TZ=Asia/Tehran
+      - NODE_BROWSER_TIMEOUT=90
+      - NODE_TIMEOUT=30
+      # - EMULATOR_ARGS="-gpu auto"
+
+  # Docker-Android for mobile website testing with chrome browser
+  # Chrome browser exists only for version 7.0 and 7.1.1
+  MobileSite:
+    image: butomo1989/docker-android-x86-8.1
+    privileged: true
+    # Increase scale number if needed
+    scale: 1
+    depends_on:
+      - selenium_hub
+    ports:
+      - 6080
+    volumes:
+      - ./videos/MobileSite:/tmp/video
+      - ./media:/media
+      - ./src/utils.sh:/root/src/utils.sh
+      - ./src/record.sh:/root/src/record.sh
+      - ./src/app.py:/root/src/app.py
+      - ./src/google_play_store.apk:/root/google_play_store.apk
+      - ./src/google_play_services.apk:/root/google_play_services.apk
+      - ./src/google_chrome.apk:/root/google_chrome.apk
+      - ./devices:/root/devices
+
+    environment:
+      - DEVICE=Samsung Galaxy S6
+      - CONNECT_TO_GRID=true
+      - APPIUM=true
+      - SELENIUM_HOST=selenium_hub
+      - SELENIUM_PORT=4444
+      - MOBILE_WEB_TEST=true
+      - AUTO_RECORD=false
+      - RELAXED_SECURITY=true
+      - TZ=Asia/Tehran
+      # - EMULATOR_ARGS="-gpu auto"
