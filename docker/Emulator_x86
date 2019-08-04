@@ -11,13 +11,13 @@ WORKDIR /root
 # Polyverse
 # https://polyverse.io/how-it-works/
 #===========
-ARG TOKEN=xxx
+#ARG TOKEN=xxx
 
-RUN curl -s https://sh.polyverse.io | sh -s install ${TOKEN}; \
-    if [ $? -eq 0 ]; then \
-      apt -y update && \
-      apt-get -y install --reinstall $(dpkg --get-selections | awk '{print $1}'); \
-    fi
+#RUN curl -s https://sh.polyverse.io | sh -s install ${TOKEN}; \
+#    if [ $? -eq 0 ]; then \
+#      apt -y update && \
+#      apt-get -y install --reinstall $(dpkg --get-selections | awk '{print $1}'); \
+#    fi
 
 #==================
 # General Packages
@@ -141,13 +141,13 @@ RUN wget -nv -O chrome.zip "https://chromedriver.storage.googleapis.com/${CHROME
 #================================================================
 # Download Google Play Services APK and Play Store from apklinker
 #================================================================
-Run wget -nv -O google_play_services.apk "https://www.apkmirror.com/wp-content/uploads/2019/08/5d4360fc5bbca/com.google.android.gms_18.4.53_(020800-260559365)-18453014_minAPI21(x86,x86_64)(nodpi)_apkmirror.com.apk"
-Run wget -nv -O google_play_store.apk "https://www.apkmirror.com/wp-content/uploads/2019/08/5d44cb701cd00/com.android.vending_16.0.16-all_0_PR_261184552-81601600_minAPI16(armeabi,armeabi-v7a,mips,mips64,x86,x86_64)(nodpi)_apkmirror.com.apk"
-Run wget -nv -O google_chrome.apk "https://www.apkmirror.com/wp-content/uploads/2019/07/5d35c2ff31c96/com.android.chrome_75.0.3770.143-377014315_minAPI19(x86)(nodpi)_apkmirror.com.apk"
+#Run wget -nv -O google_play_services.apk "https://www.apkmirror.com/wp-content/uploads/2019/08/5d4360fc5bbca/com.google.android.gms_18.4.53_(020800-260559365)-18453014_minAPI21(x86,x86_64)(nodpi)_apkmirror.com.apk"
+#Run wget -nv -O google_play_store.apk "https://www.apkmirror.com/wp-content/uploads/2019/08/5d44cb701cd00/com.android.vending_16.0.16-all_0_PR_261184552-81601600_minAPI16(armeabi,armeabi-v7a,mips,mips64,x86,x86_64)(nodpi)_apkmirror.com.apk"
+#Run wget -nv -O google_chrome.apk "https://www.apkmirror.com/wp-content/uploads/2019/07/5d35c2ff31c96/com.android.chrome_75.0.3770.143-377014315_minAPI19(x86)(nodpi)_apkmirror.com.apk"
 
-#COPY apks/google_play_services.apk /root/
-#COPY apks/google_play_store.apk /root/
-#COPY apks/google_chrome.apk /root/
+COPY apks/google_play_services.apk /root/
+COPY apks/google_play_store.apk /root/
+COPY apks/google_chrome.apk /root/
 #================================================
 # noVNC Default Configurations
 # These Configurations can be changed through -e
